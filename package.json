@@ -4,7 +4,8 @@
   "description": "api rest to save shifts",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon app.js",
+    "start": "node app"
   },
   "author": "",
   "license": "ISC",
