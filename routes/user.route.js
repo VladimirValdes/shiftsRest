@@ -4,7 +4,8 @@ const { check } = require('express-validator');
 
 const { validateFields, validateJWT } = require('../middlewares/index');
 
-const { 
+const {
+	isRoleValido, 
     emailExist,
     userExitsById,
 	dniExists
@@ -17,10 +18,16 @@ const {
     userGetById,
     userPost,
     userPut,
-    userDelete
+    userDelete,
+	userRoles
 } = require('../controllers/user.controller')
 
 router.get('/', userGet);
+
+router.get('/:role', [
+	check('role').custom( isRoleValido ),
+	validateFields
+], userRoles);
 
 router.get('/:id',[
     check('id', 'Id is not valid').isMongoId(),
