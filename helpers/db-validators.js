@@ -7,15 +7,6 @@ const {
 } = require('../models/index')
 
 
-const urlTokenExist = async( token = '') => {
-
-    const tokenExist = await User.findOne({ token })
-
-    if ( !tokenExist ) {
-        throw new Error(`This token doesn't exists`);
-    }
-}
-
 const isRoleValido = async( role = '') => {
 
     console.log({role});
@@ -47,6 +38,15 @@ const userExitsById = async( id ) => {
     }
 }
 
+const dniExists = async( dni ) => {
+
+    const dniExist = await User.findOne({ dni });
+
+    if ( dniExist ) {
+        throw new Error(`DNI ${ dni } already exist`)
+    }
+}
+
 
 
 
@@ -70,5 +70,6 @@ module.exports = {
     isRoleValido,
     emailExist,
     userExitsById,
-    urlTokenExist
+    dniExists
+
 }
