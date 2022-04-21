@@ -5,9 +5,9 @@ const { check } = require('express-validator');
 const { validateFields, validateJWT } = require('../middlewares/index');
 
 const { 
-    isRoleValido,
     emailExist,
-    userExitsById
+    userExitsById,
+	dniExists
 } = require('../helpers/db-validators');
 
 const router = Router();
@@ -31,6 +31,7 @@ router.get('/:id',[
 router.post('/', [
 	check('name', 'Name is required').not().isEmpty(),
 	check('dni', 'DNI is required').not().isEmpty(),
+	check('dni', 'DNI is required').custom( dniExists ),
 	check('password', 'Password should be greater than').isLength({ min: 6 }),
 	check('email', 'Email is not valid').isEmail(),
 	check('email').custom( emailExist ),
@@ -40,7 +41,6 @@ router.post('/', [
 router.put('/:id',[
 	check('id', 'Id is not valid').isMongoId(),
 	check('id').custom( userExitsById ),
-	// check('role').custom( isRoleValido ),
 	validateFields
 ], userPut);
 
