@@ -12,12 +12,12 @@ const UserSchema = Schema({
     }, 
     email: {
         type: String,
-        required: [true, 'El correo es obligatorio'],
+        required: [true, 'The email is required'],
         unique: true
     },
     password: {
         type: String,
-        required: [true, 'El password es obligatorio']
+        required: [true, 'The password is required']
     }, 
     role: {
         type: String,
