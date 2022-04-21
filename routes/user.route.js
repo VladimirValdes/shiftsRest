@@ -24,7 +24,7 @@ const {
 
 router.get('/', userGet);
 
-router.get('/:role', [
+router.get('/filter/:role', [
 	check('role').custom( isRoleValido ),
 	validateFields
 ], userRoles);
