@@ -6,7 +6,7 @@ const SchudelesSchema = Schema({
         require: [ true, 'The condition is required']
     }, 
     userId: {
-        type: Schema.types.objectId,
+        type: Schema.Types.ObjectId,
         ref: 'User',
     },
     code: {

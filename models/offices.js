@@ -6,12 +6,13 @@ const OfficeSchema = Schema({
         require: [ true, 'The name is required']
     },
     userId: {
-        type: Schema.types.objectId,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
     isAvalible:{
-        type: String,
-        require: [ true, 'The isAvalible is required']
+        type: Boolean,
+        require: [ true, 'The isAvalible is required'],
+        default: true
     },
     status: {
         type: Boolean,
@@ -21,10 +22,10 @@ const OfficeSchema = Schema({
 });
 
 OfficeSchema.methods.toJSON = function() {
-    const { __v, password, _id, ...user } = this.toObject();
+    const { __v, _id, ...office } = this.toObject();
 
-    user.uid = _id;
-    return user;
+    office.id = _id;
+    return office;
 }
 
-module.exports = model('User',  OfficeSchema);
+module.exports = model('Office',  OfficeSchema);

@@ -1,7 +1,7 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs');
 
-const Office = require('../models/users');
+const Office = require('../models/offices');
 
 
 const officeGet = async( req, res = response ) => {
@@ -38,30 +38,30 @@ officeGetById = async( req, res = response ) => {
 
 const officePost = async( req, res = response ) => {
 
-    const { name, password, email, dni, role } = req.body;
-    const userData = new User({ name, dni, email, password, role });
+    const { name } = req.body;
+    const officeData = new Office({ name });
 
    
 
     // saved in DB
-    const user = await userData.save();
+    const office = await officeData.save();
 
    
     res.json({
-        user
+        office
     });
 }
 
 const officePut = async( req, res = response ) => {
 
     const { id } = req.params;
-    const { _id, password, email, ...rest } = req.body;
+    const { name, isAvalible = true } = req.body;
 
  
-    const user = await User.findByIdAndUpdate( id, rest, { new: true } );
+    const office = await Office.findByIdAndUpdate( id, { name, isAvalible }, { new: true } );
 
     res.json({
-        user
+        office
     })
   
 }
