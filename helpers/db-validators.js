@@ -1,18 +1,19 @@
 const { response, request } = require('express');
 
 
+
 const {
-    Role,
     User,
-} = require('../models/index')
+} = require('../models/index');
+const roles = require('../models/roles');
 
 
 const isRoleValido = async( role = '') => {
+    const roles = [ 'ADMIN_ROLE', 'DOCTOR_ROLE', 'MANAGER_ROLE'];
 
-    console.log({role});
-    const existRol = await Role.findOne({ role });
 
-    if ( !existRol ) {
+    
+    if ( !roles.includes(role) ) {
         throw new Error(` This Rol  ${ role } doesn't exist in the DB`);
     }
 }
@@ -46,23 +47,6 @@ const dniExists = async( dni ) => {
         throw new Error(`DNI ${ dni } already exist`)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
