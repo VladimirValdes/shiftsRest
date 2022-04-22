@@ -71,10 +71,10 @@ const officeDelete = async( req, res = response ) => {
     const {  id } = req.params;
 
     
-    const user = await User.findByIdAndUpdate( id, { status: false }, { new: true });
+    const office = await Office.findByIdAndUpdate( id, { status: false }, { new: true });
 
     res.json({
-        user
+        office
     })
 
     
