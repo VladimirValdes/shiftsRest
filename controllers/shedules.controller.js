@@ -23,7 +23,7 @@ const scheduleGet = async( req, res = response ) => {
     });
 }
 
-scheduleGetById = async( req, res = response ) => {
+const scheduleGetById = async( req, res = response ) => {
 
     const { id } = req.params;
 
@@ -49,7 +49,7 @@ const schedulePost = async( req, res = response ) => {
     });
 }
 
-const userPut = async( req, res = response ) => {
+const schedulePut = async( req, res = response ) => {
 
     const { id } = req.params;
     const { _id, password, email, ...rest } = req.body;
@@ -60,23 +60,23 @@ const userPut = async( req, res = response ) => {
         rest.password = bcryptjs.hashSync(password, salt);
     }
 
-    const user = await User.findByIdAndUpdate( id, rest, { new: true } );
+    const schedule = await Schedule.findByIdAndUpdate( id, rest, { new: true } );
 
     res.json({
-        user
+        schedule
     })
   
 }
 
-const userDelete = async( req, res = response ) => {
+const scheduleDelete = async( req, res = response ) => {
 
     const {  id } = req.params;
 
     
-    const user = await User.findByIdAndUpdate( id, { status: false }, { new: true });
+    const schedule = await Schedule.findByIdAndUpdate( id, { status: false }, { new: true });
 
     res.json({
-        user
+        schedule
     })
 
     
@@ -84,9 +84,8 @@ const userDelete = async( req, res = response ) => {
 
 module.exports = {
     scheduleGet,
-    userGetById,
-    userPost,
-    userPut,
-    userDelete,
-    userRoles
+    scheduleGetById,
+    schedulePost,
+    schedulePut,
+    scheduleDelete
 }
