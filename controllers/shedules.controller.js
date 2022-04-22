@@ -2,6 +2,7 @@ const { response } = require('express');
 const bcryptjs = require('bcryptjs');
 
 const Schedule = require('../models/schedules');
+const generateId = require('../helpers/generateCode');
 
 
 const scheduleGet = async( req, res = response ) => {
@@ -14,6 +15,8 @@ const scheduleGet = async( req, res = response ) => {
         Schedule.find(query)
                .skip(Number(from))
                .limit(Number(limit))
+               .populate('user', 'name role')
+               .populate('patient', 'name')
     ]);
 
 
@@ -38,7 +41,8 @@ const scheduleGetById = async( req, res = response ) => {
 const schedulePost = async( req, res = response ) => {
 
     const { user, patient } = req.body;
-    const scheduleData = new Schedule({ user, patient });
+    const code = generateId().slice(10, -4);
+    const scheduleData = new Schedule({ user, patient, code });
 
  
     const schedule = await scheduleData.save();
@@ -52,15 +56,9 @@ const schedulePost = async( req, res = response ) => {
 const schedulePut = async( req, res = response ) => {
 
     const { id } = req.params;
-    const { _id, password, email, ...rest } = req.body;
+    const { _id, user, patient, condition } = req.body;
 
-    if ( password ) {
-        const salt = bcryptjs.genSaltSync();
-
-        rest.password = bcryptjs.hashSync(password, salt);
-    }
-
-    const schedule = await Schedule.findByIdAndUpdate( id, rest, { new: true } );
+    const schedule = await Schedule.findByIdAndUpdate( id, { user, patient, condition }, { new: true } );
 
     res.json({
         schedule

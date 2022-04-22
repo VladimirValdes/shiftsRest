@@ -14,35 +14,35 @@ const {
 const router = Router();
 
 const {
-    schedulesGet,
-    schedulesGetById,
-    schedulesPost,
-    schedulesPut,
-    schedulesDelete,
-} = require('../controllers/schedules.controller')
+    scheduleGet,
+    scheduleGetById,
+    schedulePost,
+    schedulePut,
+    scheduleDelete,
+} = require('../controllers/shedules.controller')
 
-router.get('/', schedulesGet);
+router.get('/', scheduleGet);
 
 router.get('/:id',[
     check('id', 'Id is not valid').isMongoId(),
 	validateFields
-], schedulesGetById);
+], scheduleGetById);
 
 router.post('/', [
 	check('user', 'user is required').not().isEmpty(),
 	check('patient', 'patient is required').not().isEmpty(),	
 	validateFields
-], schedulesPost);
+], schedulePost);
 
 router.put('/:id',[
 	check('id', 'Id is not valid').isMongoId(),
 	validateFields
-], schedulesPut);
+], schedulePut);
 
 router.delete('/:id', [
 	check('id', 'Id is not valid').isMongoId(),
 	validateFields
-], schedulesDelete);
+], scheduleDelete);
 
 
 module.exports = router;

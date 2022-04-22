@@ -16,7 +16,7 @@ const SchudelesSchema = Schema({
         required: [true, 'The code is required']
     }, 
     patient: {
-        type: Schema.types.objectId,
+        type:Schema.Types.ObjectId,
         ref: 'Patient',
     }, 
     status: {
@@ -27,10 +27,10 @@ const SchudelesSchema = Schema({
 });
 
 SchudelesSchema.methods.toJSON = function() {
-    const { __v,  _id, ...patient } = this.toObject();
+    const { __v,  _id, ...schedule } = this.toObject();
 
-    patient.id = _id;
-    return patient;
+    schedule.id = _id;
+    return schedule;
 }
 
-module.exports = model('User',  SchudelesSchema);
+module.exports = model('Schedule',  SchudelesSchema);
