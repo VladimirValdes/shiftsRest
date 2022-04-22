@@ -1,47 +1,47 @@
 const { response } = require('express');
 const Patients = require('../models/patients');
+const Users = require('../models/users')
+const utils = require('../helpers/db-validators')
+let ObjectId = require('mongoose').Types.ObjectId;
 
 
-const patientGet = async( req, res = response ) => {
+const patientGet = async(req, res) => {
     
-
-    res.json({'hola':'mundo'});
+    let result = await Patients.where({status:true})
+    
+    res.json(result);
 }
 
-patientGetById = async( req, res = response ) => {
+patientGetById = async( req, res ) => {
 
     const { id } = req.params;
 
     const patient = await Patients.findById( id );
 
-    res.json({
-        user,
+    res.status(200).json({
+        patient
     })
 }
 
 
-const userPost = async( req, res = response ) => {
+const patientPost = async( req, res ) => {
 
-    const { name, password, email, dni, role } = req.body;
-    const userData = new User({ name, dni, email, password, role });
-
-    // password encrypt
-    const salt = bcryptjs.genSaltSync();
-
-    userData.password = bcryptjs.hashSync(password, salt);
-
+    const { fullname, dni, email, insurance_name, insurance_number } = req.body;
+    
+    
+    const user_id = await Users.where({status:true, email:email});
+    const result = await new Patients({ userId:user_id[0]._id, fullname, dni, email, insurance_name, insurance_number });
+    
     // saved in DB
-    const user = await userData.save();
+    const dataSaved = await result.save();
 
-   
-    res.json({
-        user
+    res.status(200).json({
+        msg:'Data Saved...'
     });
 }
 
-const userPut = async( req, res = response ) => {
+/*const userPut = async( req, res) => {
 
-    const { id } = req.params;
     const { _id, password, email, ...rest } = req.body;
 
     if ( password ) {
@@ -56,26 +56,23 @@ const userPut = async( req, res = response ) => {
         user
     })
   
-}
+}*/
 
-const userDelete = async( req, res = response ) => {
+const patientDelete = async( req, res) => {
 
     const {  id } = req.params;
 
     
-    const user = await User.findByIdAndUpdate( id, { status: false }, { new: true });
+    const result = await Patients.findByIdAndUpdate( id, { status: false }, { new: true });
 
-    res.json({
-        user
-    })
+    res.status(200).json({msg:'Data Delete...'})
 
     
 }
 
 module.exports = {
-    userGet,
-    userGetById,
-    userPost,
-    userPut,
-    userDelete
+    patientGet,
+    patientPost,
+    patientGetById,
+    patientDelete
 }

@@ -15,6 +15,7 @@ class Server {
         this.userPath = '/api/users';
         this.authPath = '/api/auth';
         this.officePath = '/api/office';
+        this.patientPath = '/api/patients';
       
 
 
@@ -53,6 +54,7 @@ class Server {
 
         this.app.use( this.userPath, require('../routes/user.route'));
         this.app.use( this.authPath, require('../routes/auth.route'));
+        this.app.use( this.patientPath, require('../routes/patient.route'));
         // this.app.use( this.officePath, require('../routes/office.route'));
         
     }
