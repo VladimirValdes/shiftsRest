@@ -6,7 +6,7 @@ const generateId = require('../helpers/generateCode');
 
 
 const scheduleGet = async( req, res = response ) => {
-    const { limit = 5, from = 0 } = req.query;
+    const { limit = 10, from = 0 } = req.query;
     const query = { status: true };
 
 

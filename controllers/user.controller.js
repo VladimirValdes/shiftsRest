@@ -25,7 +25,7 @@ const userGet = async( req, res = response ) => {
 
 const userRoles = async( req, res = response ) => {
     const { role } = req.params;
-    const { limit = 5, from = 0 } = req.query;
+    const { limit = 10, from = 0 } = req.query;
     const query = { status: true, role };
 
 
