@@ -1,17 +1,17 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs');
 
-const User = require('../models/users');
+const Patient = require('../models/patients');
 
 
-const userGet = async( req, res = response ) => {
+const patientGet = async( req, res = response ) => {
     const { limit = 5, from = 0 } = req.query;
     const query = { status: true };
 
 
-    const [ total, users ] = await Promise.all([
-        User.countDocuments(query),
-        User.find(query)
+    const [ total, patients ] = await Promise.all([
+        Patient.countDocuments(query),
+        Patient.find(query)
                .skip(Number(from))
                .limit(Number(limit))
     ]);
@@ -19,19 +19,19 @@ const userGet = async( req, res = response ) => {
 
     res.json({
         total,
-        users
+        patients
     });
 }
 
-const userRoles = async( req, res = response ) => {
+const patientRoles = async( req, res = response ) => {
     const { role } = req.params;
     const { limit = 5, from = 0 } = req.query;
     const query = { status: true, role };
 
 
-    const [ total, users ] = await Promise.all([
-        User.countDocuments(query),
-        User.find(query)
+    const [ total, patients ] = await Promise.all([
+        Patient.countDocuments(query),
+        Patient.find(query)
                .skip(Number(from))
                .limit(Number(limit))
     ]);
@@ -39,42 +39,42 @@ const userRoles = async( req, res = response ) => {
 
     res.json({
         total,
-        users
+        patients
     });
 }
 
-userGetById = async( req, res = response ) => {
+const patientGetById = async( req, res = response ) => {
 
     const { id } = req.params;
 
-    const user = await User.findById( id );
+    const patient = await Patient.findById( id );
 
     res.json({
-        user,
+        patient,
     })
 }
 
 
-const userPost = async( req, res = response ) => {
+const patientPost = async( req, res = response ) => {
 
     const { name, password, email, dni, role } = req.body;
-    const userData = new User({ name, dni, email, password, role });
+    const patientData = new Patient({ name, dni, email, password, role });
 
     // password encrypt
     const salt = bcryptjs.genSaltSync();
 
-    userData.password = bcryptjs.hashSync(password, salt);
+    patientData.password = bcryptjs.hashSync(password, salt);
 
     // saved in DB
-    const user = await userData.save();
+    const patient = await patientData.save();
 
    
     res.json({
-        user
+        patient
     });
 }
 
-const userPut = async( req, res = response ) => {
+const patientPut = async( req, res = response ) => {
 
     const { id } = req.params;
     const { _id, password, email, ...rest } = req.body;
@@ -85,33 +85,33 @@ const userPut = async( req, res = response ) => {
         rest.password = bcryptjs.hashSync(password, salt);
     }
 
-    const user = await User.findByIdAndUpdate( id, rest, { new: true } );
+    const patient = await Patient.findByIdAndUpdate( id, rest, { new: true } );
 
     res.json({
-        user
+        patient
     })
   
 }
 
-const userDelete = async( req, res = response ) => {
+const patientDelete = async( req, res = response ) => {
 
     const {  id } = req.params;
 
     
-    const user = await User.findByIdAndUpdate( id, { status: false }, { new: true });
+    const patient = await Patient.findByIdAndUpdate( id, { status: false }, { new: true });
 
     res.json({
-        user
+        patient
     })
 
     
 }
 
 module.exports = {
-    userGet,
-    userGetById,
-    userPost,
-    userPut,
-    userDelete,
-    userRoles
+    patientGet,
+    patientGetById,
+    patientPost,
+    patientPut,
+    patientDelete,
+    patientRoles
 }
