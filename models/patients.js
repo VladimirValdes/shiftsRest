@@ -1,11 +1,11 @@
 const { Schema, model } = require('mongoose');
 
 const PatientSchema = Schema({
-    fullName: {
+    name: {
         type: String,
         require: [ true, 'The fullName is required']
     },
-    userId: {
+    user: {
         type: Schema.types.objectId,
         ref: 'User',
     },

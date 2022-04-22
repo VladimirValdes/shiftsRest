@@ -14,48 +14,42 @@ const {
 const router = Router();
 
 const {
-    userGet,
-    userGetById,
-    userPost,
-    userPut,
-    userDelete,
-	userRoles
+    patientGet,
+	patientPost,
+	patientPut,
+	patientGetById,
+	patientDelete
 } = require('../controllers/patient.controller')
 
-router.get('/', userGet);
+router.get('/', patientGet);
 
-router.get('/filter/:role', [
-	check('role').custom( isRoleValido ),
-	validateFields
-], userRoles);
+
 
 router.get('/:id',[
     check('id', 'Id is not valid').isMongoId(),
-	check('id').custom( userExitsById ),
 	validateFields
-], userGetById);
+], patientGetById);
 
 router.post('/', [
 	check('name', 'Name is required').not().isEmpty(),
 	check('dni', 'DNI is required').not().isEmpty(),
 	check('dni', 'DNI is required').custom( dniExists ),
-	check('password', 'Password should be greater than').isLength({ min: 6 }),
 	check('email', 'Email is not valid').isEmail(),
 	check('email').custom( emailExist ),
+	check('insurance_name', 'insurance_name is required').not().isEmpty(),
+	check('insurance_number', 'insurance_number is required').not().isEmpty(),
 	validateFields
-], userPost);
+], patientPost);
 
 router.put('/:id',[
 	check('id', 'Id is not valid').isMongoId(),
-	check('id').custom( userExitsById ),
 	validateFields
-], userPut);
+], patientPut);
 
 router.delete('/:id', [
 	check('id', 'Id is not valid').isMongoId(),
-	check('id').custom( userExitsById ),
 	validateFields
-], userDelete);
+], patientDelete);
 
 
 module.exports = router;
