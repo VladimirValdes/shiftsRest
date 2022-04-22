@@ -4,6 +4,7 @@ const { response, request } = require('express');
 
 const {
     User,
+    Patient
 } = require('../models/index');
 const roles = require('../models/roles');
 
@@ -48,12 +49,22 @@ const dniExists = async( dni ) => {
     }
 }
 
+const dniPatientExists = async( dni ) => {
+
+    const dniExist = await Patient.findOne({ dni });
+
+    if ( dniExist ) {
+        throw new Error(`DNI ${ dni } already exist`)
+    }
+}
+
 
 
 module.exports = {
     isRoleValido,
     emailExist,
     userExitsById,
-    dniExists
+    dniExists,
+    dniPatientExists
 
 }

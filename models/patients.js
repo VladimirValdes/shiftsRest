@@ -6,7 +6,7 @@ const PatientSchema = Schema({
         require: [ true, 'The fullName is required']
     },
     user: {
-        type: Schema.types.objectId,
+        type: Schema.Types.ObjectId,
         ref: 'User',
     },
     dni: {

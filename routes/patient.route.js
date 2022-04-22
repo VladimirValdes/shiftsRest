@@ -7,6 +7,7 @@ const { validateFields, validateJWT } = require('../middlewares/index');
 const {
 	isRoleValido, 
     emailExist,
+	dniPatientExists,
     userExitsById,
 	dniExists
 } = require('../helpers/db-validators');
@@ -18,7 +19,8 @@ const {
 	patientPost,
 	patientPut,
 	patientGetById,
-	patientDelete
+	patientDelete,
+	selectPatient
 } = require('../controllers/patient.controller')
 
 router.get('/', patientGet);
@@ -33,7 +35,7 @@ router.get('/:id',[
 router.post('/', [
 	check('name', 'Name is required').not().isEmpty(),
 	check('dni', 'DNI is required').not().isEmpty(),
-	check('dni', 'DNI is required').custom( dniExists ),
+	check('dni', 'DNI is required').custom( dniPatientExists ),
 	check('email', 'Email is not valid').isEmail(),
 	check('email').custom( emailExist ),
 	check('insurance_name', 'insurance_name is required').not().isEmpty(),
@@ -45,6 +47,12 @@ router.put('/:id',[
 	check('id', 'Id is not valid').isMongoId(),
 	validateFields
 ], patientPut);
+
+
+router.put('/selectPatient/:id',[
+	check('id', 'Id is not valid').isMongoId(),
+	validateFields
+], selectPatient);
 
 router.delete('/:id', [
 	check('id', 'Id is not valid').isMongoId(),
