@@ -1,17 +1,17 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs');
 
-const User = require('../models/users');
+const Schedule = require('../models/schedules');
 
 
-const userGet = async( req, res = response ) => {
+const scheduleGet = async( req, res = response ) => {
     const { limit = 5, from = 0 } = req.query;
     const query = { status: true };
 
 
-    const [ total, users ] = await Promise.all([
-        User.countDocuments(query),
-        User.find(query)
+    const [ total, schedules ] = await Promise.all([
+        Schedule.countDocuments(query),
+        Schedule.find(query)
                .skip(Number(from))
                .limit(Number(limit))
     ]);
@@ -19,58 +19,33 @@ const userGet = async( req, res = response ) => {
 
     res.json({
         total,
-        users
+        schedules
     });
 }
 
-const userRoles = async( req, res = response ) => {
-    const { role } = req.params;
-    const { limit = 5, from = 0 } = req.query;
-    const query = { status: true, role };
-
-
-    const [ total, users ] = await Promise.all([
-        User.countDocuments(query),
-        User.find(query)
-               .skip(Number(from))
-               .limit(Number(limit))
-    ]);
-
-
-    res.json({
-        total,
-        users
-    });
-}
-
-userGetById = async( req, res = response ) => {
+scheduleGetById = async( req, res = response ) => {
 
     const { id } = req.params;
 
-    const user = await User.findById( id );
+    const schedule = await Schedule.findById( id );
 
     res.json({
-        user,
+        schedule,
     })
 }
 
 
-const userPost = async( req, res = response ) => {
+const schedulePost = async( req, res = response ) => {
 
-    const { name, password, email, dni, role } = req.body;
-    const userData = new User({ name, dni, email, password, role });
+    const { user, patient } = req.body;
+    const scheduleData = new Schedule({ user, patient });
 
-    // password encrypt
-    const salt = bcryptjs.genSaltSync();
-
-    userData.password = bcryptjs.hashSync(password, salt);
-
-    // saved in DB
-    const user = await userData.save();
+ 
+    const schedule = await scheduleData.save();
 
    
     res.json({
-        user
+        schedule
     });
 }
 
@@ -108,7 +83,7 @@ const userDelete = async( req, res = response ) => {
 }
 
 module.exports = {
-    userGet,
+    scheduleGet,
     userGetById,
     userPost,
     userPut,

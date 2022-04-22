@@ -3,9 +3,11 @@ const { Schema, model } = require('mongoose');
 const SchudelesSchema = Schema({
     condition: {
         type: String,
-        require: [ true, 'The condition is required']
+        require: [ true, 'The condition is required'],
+        default: 'PENDING',
+        emun: ['ACTIVE', 'PENDING', 'FINISH'],
     }, 
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
@@ -13,9 +15,9 @@ const SchudelesSchema = Schema({
         type: String,
         required: [true, 'The code is required']
     }, 
-    patientId: {
+    patient: {
         type: Schema.types.objectId,
-        ref: 'User',
+        ref: 'Patient',
     }, 
     status: {
         type: Boolean,
@@ -25,10 +27,10 @@ const SchudelesSchema = Schema({
 });
 
 SchudelesSchema.methods.toJSON = function() {
-    const { __v, password, _id, ...user } = this.toObject();
+    const { __v,  _id, ...patient } = this.toObject();
 
-    user.uid = _id;
-    return user;
+    patient.id = _id;
+    return patient;
 }
 
 module.exports = model('User',  SchudelesSchema);
