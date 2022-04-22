@@ -19,6 +19,7 @@ const {
     officePost,
     officePut,
     officeDelete,
+	officePutDoctor
 } = require('../controllers/office.controller')
 
 router.get('/', officeGet);
@@ -38,6 +39,11 @@ router.put('/:id',[
 	check('id', 'Id is not valid').isMongoId(),
 	validateFields
 ], officePut);
+
+router.put('/selectOffice/:id',[
+	check('id', 'Id is not valid').isMongoId(),
+	validateFields
+], officePutDoctor);
 
 router.delete('/:id', [
 	check('id', 'Id is not valid').isMongoId(),

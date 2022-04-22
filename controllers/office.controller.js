@@ -14,6 +14,7 @@ const officeGet = async( req, res = response ) => {
         Office.find(query)
                .skip(Number(from))
                .limit(Number(limit))
+               .populate('user', 'name role')
     ]);
 
 
@@ -24,7 +25,8 @@ const officeGet = async( req, res = response ) => {
 }
 
 
-officeGetById = async( req, res = response ) => {
+
+const officeGetById = async( req, res = response ) => {
 
     const { id } = req.params;
 
@@ -66,6 +68,20 @@ const officePut = async( req, res = response ) => {
   
 }
 
+const officePutDoctor = async( req, res = response ) => {
+
+    const { id } = req.params;
+    const { isAvalible = false, user  } = req.body;
+
+ 
+    const office = await Office.findByIdAndUpdate( id, { isAvalible, user }, { new: true } );
+
+    res.json({
+        office
+    })
+  
+}
+
 const officeDelete = async( req, res = response ) => {
 
     const {  id } = req.params;
@@ -86,4 +102,5 @@ module.exports = {
     officePost,
     officePut,
     officeDelete,
+    officePutDoctor
 }

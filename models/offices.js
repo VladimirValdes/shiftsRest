@@ -5,7 +5,7 @@ const OfficeSchema = Schema({
         type: String,
         require: [ true, 'The name is required']
     },
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
