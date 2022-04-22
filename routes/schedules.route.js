@@ -14,48 +14,35 @@ const {
 const router = Router();
 
 const {
-    userGet,
-    userGetById,
-    userPost,
-    userPut,
-    userDelete,
-	userRoles
+    schedulesGet,
+    schedulesGetById,
+    schedulesPost,
+    schedulesPut,
+    schedulesDelete,
 } = require('../controllers/schedules.controller')
 
-router.get('/', userGet);
-
-router.get('/filter/:role', [
-	check('role').custom( isRoleValido ),
-	validateFields
-], userRoles);
+router.get('/', schedulesGet);
 
 router.get('/:id',[
     check('id', 'Id is not valid').isMongoId(),
-	check('id').custom( userExitsById ),
 	validateFields
-], userGetById);
+], schedulesGetById);
 
 router.post('/', [
-	check('name', 'Name is required').not().isEmpty(),
-	check('dni', 'DNI is required').not().isEmpty(),
-	check('dni', 'DNI is required').custom( dniExists ),
-	check('password', 'Password should be greater than').isLength({ min: 6 }),
-	check('email', 'Email is not valid').isEmail(),
-	check('email').custom( emailExist ),
+	check('user', 'user is required').not().isEmpty(),
+	check('patient', 'patient is required').not().isEmpty(),	
 	validateFields
-], userPost);
+], schedulesPost);
 
 router.put('/:id',[
 	check('id', 'Id is not valid').isMongoId(),
-	check('id').custom( userExitsById ),
 	validateFields
-], userPut);
+], schedulesPut);
 
 router.delete('/:id', [
 	check('id', 'Id is not valid').isMongoId(),
-	check('id').custom( userExitsById ),
 	validateFields
-], userDelete);
+], schedulesDelete);
 
 
 module.exports = router;
