@@ -59,12 +59,23 @@ const dniPatientExists = async( dni ) => {
 }
 
 
+const emailPatientExist = async( email = '' ) => {
+    
+    const existEmail = await Patient.findOne({ email });
+
+    if ( existEmail ) {
+        
+      throw new Error(`Email ${ existEmail.email } has already been register`);
+    }
+}
+
+
 
 module.exports = {
     isRoleValido,
     emailExist,
     userExitsById,
     dniExists,
-    dniPatientExists
-
+    dniPatientExists,
+    emailPatientExist
 }

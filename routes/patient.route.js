@@ -5,11 +5,8 @@ const { check } = require('express-validator');
 const { validateFields, validateJWT } = require('../middlewares/index');
 
 const {
-	isRoleValido, 
-    emailExist,
+	emailPatientExist,
 	dniPatientExists,
-    userExitsById,
-	dniExists
 } = require('../helpers/db-validators');
 
 const router = Router();
@@ -37,8 +34,7 @@ router.post('/', [
 	check('dni', 'DNI is required').not().isEmpty(),
 	check('dni', 'DNI is required').custom( dniPatientExists ),
 	check('email', 'Email is not valid').isEmail(),
-	check('email').custom( emailExist ),
-	
+	check('email').custom( emailPatientExist ),
 	validateFields
 ], patientPost);
 
