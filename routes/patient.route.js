@@ -38,8 +38,7 @@ router.post('/', [
 	check('dni', 'DNI is required').custom( dniPatientExists ),
 	check('email', 'Email is not valid').isEmail(),
 	check('email').custom( emailExist ),
-	check('insurance_name', 'insurance_name is required').not().isEmpty(),
-	check('insurance_number', 'insurance_number is required').not().isEmpty(),
+	
 	validateFields
 ], patientPost);
 
