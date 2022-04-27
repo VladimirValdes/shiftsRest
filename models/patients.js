@@ -20,11 +20,9 @@ const PatientSchema = Schema({
     },
     insurance_name: {
         type: String,
-        required: [true, 'The insurance_name is required']
     }, 
     insurance_number: {
         type: String,
-        required: [true, 'The insurance_number is required']
     },  
     status: {
         type: Boolean,
