@@ -47,9 +47,7 @@ const patientPost = async( req, res = response ) => {
     const patient = await patientData.save();
 
    
-    res.json({
-        patient
-    });
+    res.json(patient);
 }
 
 const patientPut = async( req, res = response ) => {
