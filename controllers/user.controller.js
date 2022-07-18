@@ -19,7 +19,8 @@ const userGet = async( req, res = response ) => {
 
     res.json({
         total,
-        users});
+        users
+    });
 }
 
 const userRoles = async( req, res = response ) => {
@@ -39,6 +40,7 @@ const userRoles = async( req, res = response ) => {
     res.json({
         total,
         users
+        
     });
 }
 
