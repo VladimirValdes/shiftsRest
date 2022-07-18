@@ -1,6 +1,8 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs');
 
+//Pruebas
+
 const User = require('../models/users');
 
 
@@ -40,7 +42,7 @@ const userRoles = async( req, res = response ) => {
     res.json({
         total,
         users
-        
+
     });
 }
 
